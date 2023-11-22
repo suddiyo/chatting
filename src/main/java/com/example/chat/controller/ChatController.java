@@ -28,8 +28,8 @@ public class ChatController {
     }
 
     @PostMapping("/rooms")
-    public ResponseEntity<Long> createChatRoom(@RequestParam String chatRoomName) {
-        Long chatRoomId = chatService.createChatRoom(chatRoomName);
+    public ResponseEntity<String> createChatRoom(@RequestParam String chatRoomName) {
+        String chatRoomId = chatService.createChatRoom(chatRoomName);
         return ResponseEntity.ok(chatRoomId);
     }
 

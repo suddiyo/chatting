@@ -23,7 +23,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
 
     private final ObjectMapper objectMapper;
     private final Set<WebSocketSession> sessions = new HashSet<>();
-    private final Map<Long, Set<WebSocketSession>> chatRoomSessionMap = new HashMap<>();
+    private final Map<String, Set<WebSocketSession>> chatRoomSessionMap = new HashMap<>();
 
 
     @Override
@@ -40,7 +40,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         ChatMessageDto chatMessageDto = objectMapper.readValue(payload, ChatMessageDto.class);
         log.info("Processed ChatMessageDto from session ID {}: {}", session.getId(), chatMessageDto);
 
-        Long chatRoomId = chatMessageDto.getChatRoomId();
+        String chatRoomId = chatMessageDto.getChatRoomId();
         if (!chatRoomSessionMap.containsKey(chatRoomId)) {
             chatRoomSessionMap.put(chatRoomId, new HashSet<>());
         }
@@ -62,7 +62,7 @@ public class WebSocketChatHandler extends TextWebSocketHandler {
         sessions.remove(session);
     }
 
-    private void removeClosedSession(Long chatRoomId, Set<WebSocketSession> chatRoomSession) {
+    private void removeClosedSession(String chatRoomId, Set<WebSocketSession> chatRoomSession) {
         chatRoomSession.removeIf(session -> !sessions.contains(session));
         log.info("Cleaning up closed sessions in chat room ID {}", chatRoomId);
     }

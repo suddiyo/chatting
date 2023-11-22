@@ -7,6 +7,7 @@ import com.example.chat.dto.ChatRoomDto;
 import com.example.chat.repository.ChatMessageRepository;
 import com.example.chat.repository.ChatRoomRepository;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,11 @@ public class ChatService {
     private final ChatMessageRepository chatMessageRepository;
 
     @Transactional
-    public Long createChatRoom(String chatRoomName) {
+    public String createChatRoom(String chatRoomName) {
+        String roomId = UUID.randomUUID().toString();
+
         ChatRoom chatRoom = ChatRoom.builder()
+                .id(roomId)
                 .name(chatRoomName)
                 .build();
         ChatRoom savedChatRoom = chatRoomRepository.save(chatRoom);

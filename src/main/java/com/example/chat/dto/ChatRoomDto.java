@@ -14,7 +14,7 @@ import lombok.ToString;
 @NoArgsConstructor
 public class ChatRoomDto {
 
-    private Long id;
+    private String id;
     private String name;
 
     public static ChatRoomDto toDto(ChatRoom chatRoom) {
