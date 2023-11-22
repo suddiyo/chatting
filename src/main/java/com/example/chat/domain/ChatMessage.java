@@ -31,4 +31,7 @@ public class ChatMessage {
     private Long senderId;
     private String message;
 
+    public void setChatRoom(ChatRoom chatRoom) {
+        this.chatRoom = chatRoom;
+    }
 }

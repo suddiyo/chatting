@@ -48,6 +48,8 @@ public class ChatService {
                 .senderId(chatMessageDto.getSenderId())
                 .message(chatMessageDto.getMessage()).build();
 
+        chatRoom.addMessage(chatMessage);
+
         chatMessageRepository.save(chatMessage);
     }
 

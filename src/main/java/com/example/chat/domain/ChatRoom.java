@@ -30,4 +30,10 @@ public class ChatRoom {
     @OneToMany(mappedBy = "chatRoom", cascade = CascadeType.ALL)
     private List<ChatMessage> chatMessages;
 
+    public void addMessage(ChatMessage chatMessage) {
+        this.chatMessages.add(chatMessage);
+        if (chatMessage.getChatRoom() != this) {
+            chatMessage.setChatRoom(this);
+        }
+    }
 }
