@@ -4,12 +4,14 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import javax.sound.midi.Receiver;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.annotation.EnableRabbit;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 
 import org.springframework.context.annotation.Bean;
@@ -55,7 +57,7 @@ public class RabbitConfig {
         SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
         container.setConnectionFactory(connectionFactory());
         container.setQueueNames(CHAT_QUEUE_NAME);
-        container.setMessageListener(null);
+        container.setMessageListener(exampleMessageListener());
         return container;
     }
 
@@ -80,6 +82,14 @@ public class RabbitConfig {
         Jackson2JsonMessageConverter converter = new Jackson2JsonMessageConverter(objectMapper);
 
         return converter;
+    }
+
+    @Bean
+    public MessageListener exampleMessageListener() {
+        return message -> {
+            // 메시지 처리 로직
+            System.out.println("Received message: " + new String(message.getBody()));
+        };
     }
 
     @Bean

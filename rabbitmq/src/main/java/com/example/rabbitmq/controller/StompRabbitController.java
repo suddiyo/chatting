@@ -20,13 +20,13 @@ public class StompRabbitController {
     @MessageMapping("chat.enter.{chatRoomId}")
     public void enter(ChatMessage message, @DestinationVariable String chatRoomId) {
 
-        message.setMessage("🐶 " + message.getSender() + "님이 입장하셨습니다.");
+        message.setMessage("🐶 " + message.getNickname() + "님이 입장하셨습니다.");
 
 //        chat.setRegDate(LocalDateTime.now());
 
         template.convertAndSend(CHAT_EXCHANGE_NAME, "room." + chatRoomId, message); // exchange
         //template.convertAndSend("room." + chatRoomId, chat); //queue
-//        template.convertAndSend("amq.topic", "room." + chatRoomId, chat); //topic
+//        template.convertAndSend("amq.topic", "room." + chatRoomId, message); //topic
     }
 
 
@@ -37,7 +37,7 @@ public class StompRabbitController {
 
         template.convertAndSend(CHAT_EXCHANGE_NAME, "room." + chatRoomId, message);
         //template.convertAndSend( "room." + chatRoomId, chat);
-        //template.convertAndSend("amq.topic", "room." + chatRoomId, chat);
+//        template.convertAndSend("amq.topic", "room." + chatRoomId, message);
     }
 
     //receive()는 단순히 큐에 들어온 메세지를 소비만 한다. (현재는 디버그용도)
